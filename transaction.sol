@@ -127,6 +127,8 @@ contract Transaction {
     Timestamp timestamp_obj;
     Bundle bundle_obj;
     Denomination denomination_obj;
+    Transaction transaction_obj;
+    Approver approver_obj;
 
 
     /* SETTERS AND GETTERS */
@@ -323,6 +325,130 @@ contract Transaction {
 
 
     function setTransaction (
+        string ID,
+        string CHAIN,
+        string USERNAME,
+        string STATUS,
+        string MANDATORY
+        string[] memory SENDERS,
+        string[] memory SENDERS,
+        string[] memory REQUESTORS,
+        string memory BALANCE,
+        string memory BUNDLEID
+        string memory LATITUDE,
+        string memory LONGITUDE,
+        string memory DISTRICT,
+        string memory STATE,
+        string memory DATE,
+        string memory TIME,
+        string memory TIMESTAMP,
+        string memory TYPE,
+        string memory DESCRIPTION
+    )public{
+        approver_obj = Approver({
+            USERNAME:USERNAME,
+            STATUS:STATUS,
+            MANDATORY:MANDATORY
+        });
 
-    )
+        location_obj = Location({
+            LATITUDE:LATITUDE,
+            LONGITUDE:LONGITUDE,
+            DISTRICT:DISTRICT,
+            STATE:STATE
+        });
+
+        timestamp_obj = Timestamp({
+            TIMESTAMP:TIMESTAMP,
+            DATE:DATE,
+            TIME:TIME
+        });
+
+        bundle_obj = Bundle({
+            ID:BUNDLEID,
+            BALANCE:BALANCE
+        });
+
+        for(uint i=0;i<DENOMINATIONS.length;i++){
+            denomination_obj = Denomination({
+                VALUE:DENOMINATIONS[i],
+                COUNT:0
+            });
+            currencychest_obj.CURRENCYCHEST[DENOMINATIONS[i]] = denomination_obj;
+        }
+
+        for(uint i=0;i<transactionList.length;i++){
+            transaction_obj = Transaction({
+                ID: ID,
+                CHAIN: CHAIN,
+                SENDERS: SENDERS,
+                RECEIVERS: RECEIVERS,
+                REQUESTORS: REQUESTORS,
+                APPROVERS: approver_obj,
+                PAYLOAD: bundle_obj,
+                LOCATION: location_obj,
+                TIMESTAMP: timestamp_obj,
+                TYPE: TYPE,
+                DESCRIPTION: DESCRIPTION
+            });
+            transactionList[ID]=transaction_obj;
+        }
+    }
+
+    function getTransaction(
+        string ID
+    )public{
+        transaction_obj = transactionList[ID];
+        return (
+            transactionList[ID].ID,
+            transactionList[ID].CHAIN,
+            transactionList[ID].SENDERS,
+            transactionList[ID].RECEIVERS,
+            transactionList[ID].REQUESTORS,
+            transactionList[ID].TYPE,
+            transactionList[ID].DESCRIPTION,
+            transactionList[ID].APPROVER.USERNAME,
+            transactionList[ID].APPROVER.STATUS,
+            transactionList[ID].APPROVER.MANDATORY,
+            transactionList[ID].LOCATION.LATITUDE,
+            transactionList[ID].LOCATION.LONGITUDE,
+            transactionList[ID].LOCATION.DISTRICT,
+            transactionList[ID].TIMESTAMP.TIMESTAMP,
+            transactionList[ID].TIMESTAMP.DATE,
+            transactionList[ID].TIMESTAMP.TIME,
+            transactionList[ID].BUNDLE.BUNDLEID,
+            transactionList[ID].BUNDLE.BALANCE,
+        )
+    }
+
+    function setChain(
+        string ID,
+        string CHAIN
+    )public{
+        transactionList[ID].CHAIN = CHAIN;
+    }
+
+    function getChain(
+      string ID,
+    ) public {
+        return transactionList[ID].CHAIN;
+    }
+
+    function setSenders(
+        string ID,
+        string NAME;
+    )public{
+        for (uint i = 0; i < transactionList[transactionID].SENDERS.length; i++) {
+           transactionList[transactionID].SENDERS[i] = senderName;
+        }
+    }
+
+    function getSenders(
+      string ID,
+    ) public {
+        // for (uint i = 0; i < transactionList[transactionID].SENDERS.length; i++) {
+        //    transactionList[transactionID].SENDERS[i] = senderName;
+        // }
+        // return userList[USERNAME].PASSWORD;
+    }
 }
