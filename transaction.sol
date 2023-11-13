@@ -126,6 +126,7 @@ contract Transaction {
     Location location_obj;
     Timestamp timestamp_obj;
     Bundle bundle_obj;
+    Denomination denomination_obj;
 
 
     /* SETTERS AND GETTERS */
@@ -263,6 +264,15 @@ contract Transaction {
             TRIGGER:TRIGGER
         });
 
+         
+        for(uint i=0;i<DENOMINATIONS.length;i++){
+            denomination_obj = Denomination({
+                VALUE:DENOMINATIONS[i],
+                COUNT:0
+            });
+            currencychest_obj.CURRENCYCHEST[DENOMINATIONS[i]] = denomination_obj;
+        }
+
         entity_obj = Entity({
             ID:ID,
             NAME:NAME,
@@ -312,5 +322,7 @@ contract Transaction {
     }
 
 
-    
+    function setTransaction (
+
+    )
 }

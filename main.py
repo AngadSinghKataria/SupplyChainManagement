@@ -6,44 +6,44 @@ import json
 account_key = w3.eth.accounts[1]
 
 
-def getSnackReviews(snack_id):
-    snack_reviews = []
-    with open("data.json", 'r') as f:
-        datastore = json.load(f)
-    abi = datastore["abi"]
-    contract_address = datastore["contract_address"]
+# def getSnackReviews(snack_id):
+#     snack_reviews = []
+#     with open("data.json", 'r') as f:
+#         datastore = json.load(f)
+#     abi = datastore["abi"]
+#     contract_address = datastore["contract_address"]
 
-    # Create the contract instance with the newly-deployed address
-    contract = w3.eth.contract(
-        address=contract_address, abi=abi,
-    )
+#     # Create the contract instance with the newly-deployed address
+#     contract = w3.eth.contract(
+#         address=contract_address, abi=abi,
+#     )
 
-    for i in range(contract.functions.get_array_length(snack_id).call()):
-        temp = contract.functions.getReview(snack_id, i).call()
-        snack_review = {
-            "USER_EMAIL": temp[0],
-            "USER_NAME": temp[1],
-            "SNACK_ID": temp[2],
-            "SNACK_REVIEW": temp[3],
-            "SCHEDULE_DATE": temp[4],
-            "SNACK_RATING": temp[5]
-        }
-        snack_reviews.append(snack_review)
+#     for i in range(contract.functions.get_array_length(snack_id).call()):
+#         temp = contract.functions.getReview(snack_id, i).call()
+#         snack_review = {
+#             "USER_EMAIL": temp[0],
+#             "USER_NAME": temp[1],
+#             "SNACK_ID": temp[2],
+#             "SNACK_REVIEW": temp[3],
+#             "SCHEDULE_DATE": temp[4],
+#             "SNACK_RATING": temp[5]
+#         }
+#         snack_reviews.append(snack_review)
 
-    return (snack_reviews)
+#     return (snack_reviews)
 
-def getSnackUserReviews(snack_id, user_email, schedule_date):
-    with open("data.json", 'r') as f:
-        datastore = json.load(f)
-    abi = datastore["abi"]
-    contract_address = datastore["contract_address"]
+# def getSnackUserReviews(snack_id, user_email, schedule_date):
+#     with open("data.json", 'r') as f:
+#         datastore = json.load(f)
+#     abi = datastore["abi"]
+#     contract_address = datastore["contract_address"]
 
-    # Create the contract instance with the newly-deployed address
-    contract = w3.eth.contract(
-        address=contract_address, abi=abi,
-    )
+#     # Create the contract instance with the newly-deployed address
+#     contract = w3.eth.contract(
+#         address=contract_address, abi=abi,
+#     )
 
-    return (contract.functions.getUserReview(snack_id, user_email, schedule_date).call())
+#     return (contract.functions.getUserReview(snack_id, user_email, schedule_date).call())
 
 
 
@@ -88,7 +88,7 @@ def deploy_contract(contract_interface):
 def compile_contract():
     _solc_version = "0.4.24"
     install_solc(_solc_version)
-    review = open("review.sol","r").read()
+    review = open("transaction.sol","r").read()
     stringUtils = open("stringUtils.sol","r").read()
     '''
     contracts = compile_standard(
@@ -116,7 +116,7 @@ def compile_contract():
     # separate main file and link file
     # main_contract = contracts.pop("review.sol:reviewRecords")
     # library_link = contracts.pop("stringUtils.sol:StringUtils")
-    main_contract = contracts.pop("<stdin>:reviewRecords")
+    main_contract = contracts.pop("<stdin>:Transaction")
 
     contracts = compile_source(
         stringUtils,
@@ -149,16 +149,10 @@ def compile_contract():
         abi = datastore["abi"]
         contract_address = datastore["contract_address"]
 
-class ReviewSchema(Schema):
-    USER_EMAIL = fields.String(required=True)
-    USER_NAME = fields.String(required=True)
-    SNACK_ID = fields.String(required=True)
-    SNACK_REVIEW = fields.String(required=True)
-    SCHEDULE_DATE = fields.String(required=True)
-    SNACK_RATING = fields.Int(required=True)
+
     
 
-
+"""
 def transaction(account_key, USER_EMAIL, USER_NAME, SNACK_ID, SNACK_REVIEW, SCHEDULE_DATE, SNACK_RATING):
     body = {"USER_EMAIL":USER_EMAIL, 'USER_NAME':USER_NAME, 'SNACK_ID':SNACK_ID, 'SNACK_REVIEW':SNACK_REVIEW, 'SCHEDULE_DATE':SCHEDULE_DATE, 'SNACK_RATING':SNACK_RATING}
     w3.eth.defaultAccount = account_key
@@ -186,3 +180,6 @@ def transaction(account_key, USER_EMAIL, USER_NAME, SNACK_ID, SNACK_REVIEW, SCHE
     w3.eth.wait_for_transaction_receipt(tx_hash)
     #user_data = user.functions.getReview().call()
     #print(user_data)
+"""
+
+
